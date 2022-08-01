@@ -1,4 +1,5 @@
 import { useState } from "react";
+import CalendarDays from "./CalendarDays";
 
 export default function Calendar() {
   //language of calendar
@@ -30,12 +31,12 @@ export default function Calendar() {
   //get the day which starts the month
   const startsOn = new Date(2022, getNumberMonth, 1).getDay();
 
-  function randomNumber(){
-    var randomNumber = Math.floor(
+  const randomNumber = () => {
+    const randomNumber = Math.floor(
       Math.random() * (Math.floor(5) - Math.ceil(1)) + Math.ceil(1)
     );
     return randomNumber;
-  }
+  };
 
   const convertNumberToColor = () => {
     switch (randomNumber()) {
@@ -44,14 +45,13 @@ export default function Calendar() {
       case 2:
         return "yellow-400";
       case 3:
-        return"red-600";
+        return "red-600";
       case 4:
         return "gray-400";
       default:
         return "gray-400";
     }
-  }
-
+  };
 
   return (
     <div className="p-2 my-3 rounded outline outline-cyan-500 flex flex-col items-center justify-center">
@@ -97,33 +97,20 @@ export default function Calendar() {
 
             {days.map((day) =>
               day === 0 ? (
-                <li
+                <CalendarDays
                   key={day}
-                  className={`py-1 col-start-${startsOn} bg-${convertNumberToColor()} opacity-90 border border-white`}
-                >
-                  <label htmlFor="1">{day + 1}</label>
-                  <input
-                    type="radio"
-                    name="january"
-                    value="1"
-                    id="1"
-                    className={`accent-${convertNumberToColor()}`}
-                  />
-                </li>
+                  day={day + 1}
+                  startsOn={startsOn + 1}
+                  monthName={monthNameCapitalLetter}
+                  availability={convertNumberToColor()}
+                />
               ) : (
-                <li
+                <CalendarDays
                   key={day}
-                  className={`py-1 bg-${convertNumberToColor()} opacity-90 border border-white`}
-                >
-                  <label htmlFor="2">{day + 1}</label>
-                  <input 
-                    type="radio" 
-                    name="january" 
-                    value="2" 
-                    id="2" 
-                    className={`accent-${convertNumberToColor()}`}
-                  />
-                </li>
+                  day={day + 1}
+                  monthName={monthNameCapitalLetter}
+                  availability={convertNumberToColor()}
+                />
               )
             )}
           </ol>
