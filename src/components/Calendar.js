@@ -1,9 +1,32 @@
-import { useState } from "react";
-import CalendarDays from "./CalendarDays";
+import { useEffect, useState } from "react";
+import CalendarDay from "./CalendarDay";
 
-export default function Calendar() {
+const Calendar = ({ handleChange }) => {
+
+  //read the screen size
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    window.screen.width <= 768 ? setIsMobile(true) : setIsMobile(false);
+  }, []);
+
+  function detectWindowSize() {
+    window.innerWidth <= 768 ? setIsMobile(true) : setIsMobile(false);
+  }
+
+  window.onresize = detectWindowSize;
+
+  //to decide if the name of weekdays are short or long
+  const weekdaySize = () => {
+    if (isMobile) {
+      return "short";
+    } else {
+      return "long";
+    }
+  }
+
   //language of calendar
-  const locale = "es";
+  const locale = "en";
 
   //state to choose the month from the calendar
   const [getNumberMonth, setGetNumberMonth] = useState(0);
@@ -16,7 +39,9 @@ export default function Calendar() {
 
   //get weekdays
   const weekdays = [...Array(7).keys()];
-  const intlWeekday = new Intl.DateTimeFormat(locale, { weekday: "long" });
+  const intlWeekday = new Intl.DateTimeFormat(locale, {
+    weekday: weekdaySize(),
+  });
 
   //get the month that you have chosen and converts to capital letter
   const monthName = intl.format(new Date(actualYear, getNumberMonth));
@@ -31,37 +56,16 @@ export default function Calendar() {
   //get the day which starts the month
   const startsOn = new Date(2022, getNumberMonth, 1).getDay();
 
-  const randomNumber = () => {
-    const randomNumber = Math.floor(
-      Math.random() * (Math.floor(5) - Math.ceil(1)) + Math.ceil(1)
-    );
-    return randomNumber;
-  };
-
-  const convertNumberToColor = () => {
-    switch (randomNumber()) {
-      case 1:
-        return "green-600";
-      case 2:
-        return "yellow-400";
-      case 3:
-        return "red-600";
-      case 4:
-        return "gray-400";
-      default:
-        return "gray-400";
-    }
-  };
-
   return (
     <div className="p-2 my-3 rounded outline outline-cyan-500 flex flex-col items-center justify-center">
       <p className="p-2 m-1 text-xl text-sky-700 font-semibold">
         Choose the date:
       </p>
-      <div className="p-2 md:flex md:items-center">
+      <div className="p-2 flex flex-col lg:flex-row items-center">
         <div className="m-1 text-center rounded outline outline-sky-600">
           <div className="grid grid-cols-3 items-center border-b-2 border-sky-600">
             <button
+              type="button"
               onClick={() => setGetNumberMonth(getNumberMonth - 1)}
               className={
                 getNumberMonth <= 0
@@ -76,6 +80,7 @@ export default function Calendar() {
               {monthNameCapitalLetter} {actualYear}
             </h2>
             <button
+              type="button"
               onClick={() => setGetNumberMonth(getNumberMonth + 1)}
               className="px-1 h-min w-min justify-self-center rounded bg-sky-500 hover:bg-sky-600 text-white shadow-md"
             >
@@ -97,19 +102,21 @@ export default function Calendar() {
 
             {days.map((day) =>
               day === 0 ? (
-                <CalendarDays
+                <CalendarDay
                   key={day}
                   day={day + 1}
                   startsOn={startsOn + 1}
-                  monthName={monthNameCapitalLetter}
-                  availability={convertNumberToColor()}
+                  year={actualYear}
+                  month={monthNameCapitalLetter}
+                  handleChange={handleChange}
                 />
               ) : (
-                <CalendarDays
+                <CalendarDay
                   key={day}
                   day={day + 1}
-                  monthName={monthNameCapitalLetter}
-                  availability={convertNumberToColor()}
+                  year={actualYear}
+                  month={monthNameCapitalLetter}
+                  handleChange={handleChange}
                 />
               )
             )}
@@ -139,6 +146,8 @@ export default function Calendar() {
       </div>
       <input
         type="time"
+        name="hour"
+        onChange={handleChange}
         defaultValue="07:00"
         min="07:00"
         max="18:00"
@@ -146,4 +155,6 @@ export default function Calendar() {
       />
     </div>
   );
-}
+};
+
+export default Calendar;
