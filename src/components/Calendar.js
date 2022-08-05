@@ -59,7 +59,7 @@ const Calendar = ({ handleChange }) => {
   return (
     <div className="p-2 my-3 rounded outline outline-cyan-500 flex flex-col items-center justify-center">
       <p className="p-2 m-1 text-xl text-sky-700 font-semibold">
-        Choose the date:
+        Choose the date and time:
       </p>
       <div className="p-2 flex flex-col lg:flex-row items-center">
         <div className="m-1 text-center rounded outline outline-sky-600">
