@@ -151,7 +151,7 @@ const Calendar = ({ handleChange }) => {
         defaultValue="07:00"
         min="07:00"
         max="18:00"
-        className="px-2 m-2 rounded outline outline-2 outline-sky-600 w-72"
+        className="p-2 m-2 rounded outline outline-2 outline-sky-600 w-72"
       />
     </div>
   );
