@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import CalendarDay from "./CalendarDay";
+import FirstCalendarDay from "./FirstCalendarDay";
 
 const Calendar = ({ handleChange }) => {
 
@@ -54,7 +55,7 @@ const Calendar = ({ handleChange }) => {
   const days = [...Array(daysOfMonth).keys()];
 
   //get the day which starts the month
-  const startsOn = new Date(2022, getNumberMonth, 1).getDay();
+  const startsOn = new Date(2022, getNumberMonth, 1).getDay(); 
 
   return (
     <div className="p-2 my-3 rounded outline outline-cyan-500 flex flex-col items-center justify-center">
@@ -102,7 +103,7 @@ const Calendar = ({ handleChange }) => {
 
             {days.map((day) =>
               day === 0 ? (
-                <CalendarDay
+                <FirstCalendarDay
                   key={day}
                   day={day + 1}
                   startsOn={startsOn + 1}

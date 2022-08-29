@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 
-const CalendarDay = ({day, year, month, handleChange}) => {
+const FirstCalendarDay = ({ day, startsOn, year, month, handleChange }) => {
 
   //choose a number between 1 and 4
   const randomNumber = useMemo(() => {
@@ -24,10 +24,13 @@ const CalendarDay = ({day, year, month, handleChange}) => {
       default:
         return "gray-400";
     }
-  }
+  };
 
   return (
-    <li className={`py-1 bg-${convertNumberToColor()} opacity-90 border border-white`}>
+    <li
+      style={{gridColumnStart: startsOn}}
+      className={`py-1 bg-${convertNumberToColor()} opacity-90 border border-white`}
+    >
       <label htmlFor={day}>{day}</label>
       <input
         type="radio"
@@ -37,13 +40,14 @@ const CalendarDay = ({day, year, month, handleChange}) => {
         value={`${month} ${day}, ${year}`}
         id={day}
         disabled={
-          convertNumberToColor() === "gray-400" || convertNumberToColor() === "red-600"
-          ? true
-          : false
+          convertNumberToColor() === "gray-400" ||
+          convertNumberToColor() === "red-600"
+            ? true
+            : false
         }
       />
     </li>
-  )
-}
+  );
+};
 
-export default CalendarDay;
+export default FirstCalendarDay;
